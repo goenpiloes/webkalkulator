@@ -5,13 +5,11 @@ const equalSign = document.querySelector(".equal-sign")
 const clearBtn = document.querySelector(".all-clear")
 const decimal = document.querySelector(".decimal")
 const percentage = document.querySelector(".percentage")
+const del_number = document.querySelector(".del-number")
 
 let prevNumber = ''
 let calculationOperator = ''
-let currentNumber = ''
-let Number1 = 0
-let Number2 = 0
-let number = ''
+let currentNumber = '0'
 
 const updateScreen = (number) => {
     calculatorScreen.value = number
@@ -39,15 +37,20 @@ const inputOperator = (operator) => {
     currentNumber = ''
 }
 
-const doPercentage = () => {
-    currentNumber = (parseFloat(currentNumber.replace(',', '.'))/100).toString().replace('.', ',')
+const doPercentage = (number) => {
+    return (parseFloat(number.replace(',', '.'))/100).toString().replace('.', ',')
+}
+
+const deleteNumber = (number) => {
+    return number.slice(0, -1)
+    
 }
 
 const calculate = () => {
     let result = ''
     
-    Number1 = parseFloat(prevNumber.replace(',', '.'))
-    Number2 = parseFloat(currentNumber.replace(',', '.'))
+    let Number1 = parseFloat(prevNumber.replace(',', '.'))
+    let Number2 = parseFloat(currentNumber.replace(',', '.'))
     
     switch (calculationOperator) {
         case '+':
@@ -98,8 +101,15 @@ operators.forEach((operator) => {
 })
 
 equalSign.addEventListener("click", () => {
-    calculate()
-    updateScreen(currentNumber)
+    if (currentNumber === '' && prevNumber !== '') {
+        currentNumber = prevNumber
+        prevNumber = ''
+        calculationOperator = ''
+        updateScreen(currentNumber)
+    } else {
+        calculate()
+        updateScreen(currentNumber)
+    }
 })
 
 clearBtn.addEventListener("click", () => {
@@ -113,6 +123,14 @@ decimal.addEventListener("click", (event) => {
 })
 
 percentage.addEventListener("click", () => {
-    doPercentage(currentNumber)
+    currentNumber = doPercentage(currentNumber)
+    updateScreen(currentNumber)
+})
+
+del_number.addEventListener("click", () => {
+    currentNumber = deleteNumber(currentNumber)
+    if (currentNumber === '' || currentNumber === '-') {
+        currentNumber = '0'
+    }
     updateScreen(currentNumber)
 })

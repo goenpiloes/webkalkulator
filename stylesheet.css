@@ -57,7 +57,7 @@ button
     outline: none;
 }
 
-.all-clear, .zero-btn
+.zero-btn
 {
     width: 50%;
 }
@@ -71,6 +71,11 @@ button:hover
 {
     background-color: rgb(247, 234, 63);
     color: black;
+}
+
+.all-clear:hover, .del-number:hover
+{
+    background-color:greenyellow;
 }
 
 .operator:hover, .equal-sign:hover
