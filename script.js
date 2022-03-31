@@ -97,7 +97,7 @@ operators.forEach((operator) => {
     })
 })
 
-equalSign.addEventListener("click", (event) => {
+equalSign.addEventListener("click", () => {
     calculate()
     updateScreen(currentNumber)
 })
