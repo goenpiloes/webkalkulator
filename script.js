@@ -8,7 +8,7 @@ const percentage = document.querySelector(".percentage")
 
 let prevNumber = ''
 let calculationOperator = ''
-let currentNumber = '0'
+let currentNumber = ''
 let Number1 = 0
 let Number2 = 0
 let number = ''
@@ -26,11 +26,17 @@ const inputNumber = (number) => {
 }
 
 const inputOperator = (operator) => {
-    if (calculationOperator === '') {
-        prevNumber = currentNumber
+    if (currentNumber !== '') {
+        if (calculationOperator === '') {
+            prevNumber = currentNumber
+        } else {
+            calculate()
+            prevNumber = currentNumber
+            updateScreen(prevNumber)
+        }
     }
     calculationOperator = operator
-    currentNumber = '0'
+    currentNumber = ''
 }
 
 const doPercentage = () => {
