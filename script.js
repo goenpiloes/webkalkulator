@@ -4,10 +4,14 @@ const operators = document.querySelectorAll(".operator")
 const equalSign = document.querySelector(".equal-sign")
 const clearBtn = document.querySelector(".all-clear")
 const decimal = document.querySelector(".decimal")
+const percentage = document.querySelector(".percentage")
 
 let prevNumber = ''
 let calculationOperator = ''
 let currentNumber = '0'
+let Number1 = 0
+let Number2 = 0
+let number = ''
 
 const updateScreen = (number) => {
     calculatorScreen.value = number
@@ -29,32 +33,34 @@ const inputOperator = (operator) => {
     currentNumber = '0'
 }
 
+const doPercentage = () => {
+    currentNumber = (parseFloat(currentNumber.replace(',', '.'))/100).toString().replace('.', ',')
+}
+
 const calculate = () => {
     let result = ''
-    if (prevNumber.includes(',') || currentNumber.includes(',')) {
-        Number1 = prevNumber.replace(',', '.')
-        Number2 = currentNumber.replace(',', '.')
-    }
+    
+    Number1 = parseFloat(prevNumber.replace(',', '.'))
+    Number2 = parseFloat(currentNumber.replace(',', '.'))
+    
     switch (calculationOperator) {
         case '+':
-            result = parseFloat(Number1) + parseFloat(Number2)
+            result = Number1 + Number2
             break
         case '-':
-            result = parseFloat(Number1) - parseFloat(Number2)
+            result = Number1 - Number2
             break
         case '*':
-            result = parseFloat(Number1) * parseFloat(Number2)
+            result = Number1 * Number2
             break
         case '/':
-            result = parseFloat(Number1) / parseFloat(Number2)
+            result = Number1 / Number2
             break
         default:
             return
     }
-    result = result.toString()
-    if (result.includes('.')) {
-        result = result.replace('.', ',')
-    }
+    result = result.toString().replace('.', ',')
+    
     currentNumber = result
     calculationOperator = ''
 }
@@ -97,5 +103,10 @@ clearBtn.addEventListener("click", () => {
 
 decimal.addEventListener("click", (event) => {
     inputDecimal(event.target.value)
+    updateScreen(currentNumber)
+})
+
+percentage.addEventListener("click", () => {
+    doPercentage(currentNumber)
     updateScreen(currentNumber)
 })
